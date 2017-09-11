@@ -1,23 +1,13 @@
 #
-# A theme based on Steve Losh's Extravagant Prompt with vcs_info integration.
-#
-# Authors:
-#   Steve Losh <steve@stevelosh.com>
-#   Bart Trojanowski <bart@jukie.net>
-#   Brian Carper <brian@carper.ca>
-#   steeef <steeef@gmail.com>
-#   Sorin Ionescu <sorin.ionescu@gmail.com>
-#
-# Screenshots:
-#   http://i.imgur.com/HyRvv.png
+# A theme based on steeef theme. Requires prezto
 #
 
-function prompt_steeef_precmd {
+function prompt_precmd {
   # Check for untracked files or updated submodules since vcs_info does not.
   if [[ -n $(git ls-files --other --exclude-standard 2> /dev/null) ]]; then
-    branch_format="(${_prompt_steeef_colors[1]}%b%f%u%c${_prompt_steeef_colors[4]}●%f)"
+    branch_format="(${_prompt_colors[1]}%b%f%u%c${_prompt_colors[4]}●%f)"
   else
-    branch_format="(${_prompt_steeef_colors[1]}%b%f%u%c)"
+    branch_format="(${_prompt_colors[1]}%b%f%u%c)"
   fi
 
   zstyle ':vcs_info:*:prompt:*' formats "${branch_format}"
@@ -40,7 +30,7 @@ function prompt_steeef_precmd {
   fi
 }
 
-function prompt_steeef_setup {
+function prompt_setup {
   setopt LOCAL_OPTIONS
   unsetopt XTRACE KSH_ARRAYS
   prompt_opts=(cr percent subst)
@@ -50,11 +40,11 @@ function prompt_steeef_setup {
   autoload -Uz vcs_info
 
   # Add hook for calling vcs_info before each command.
-  add-zsh-hook precmd prompt_steeef_precmd
+  add-zsh-hook precmd prompt_precmd
 
   # You could use extended color pallete if available...
   # if [[ $TERM = *256color* || $TERM = *rxvt* ]]; then
-  #   _prompt_steeef_colors=(
+  #   _prompt_colors=(
   #     "%F{81}"  # Turquoise
   #     "%F{166}" # Orange
   #     "%F{red}" # Purple
@@ -63,7 +53,7 @@ function prompt_steeef_setup {
   #     "%F{118}" # Limegreen
   #   )
   # else
-  #   _prompt_steeef_colors=(
+  #   _prompt_colors=(
   #     "%F{blue}"
   #     "%F{yellow}"
   #     "%F{red}"
@@ -73,7 +63,7 @@ function prompt_steeef_setup {
   #   )
   # fi
   # ... but for now I'm happy with standard colors
-  _prompt_steeef_colors=(
+  _prompt_colors=(
     "%F{blue}"
     "%F{yellow}"
     "%F{red}"
@@ -90,10 +80,10 @@ function prompt_steeef_setup {
   #   %S - path in the repository
 
   # Define things that change here, so they are recomputed
-  local branch_format="(${_prompt_steeef_colors[1]}%b%f%u%c)"
-  local action_format="(${_prompt_steeef_colors[5]}%a%f)"
-  local unstaged_format="${_prompt_steeef_colors[2]}●%f"
-  local staged_format="${_prompt_steeef_colors[5]}●%f"
+  local branch_format="(${_prompt_colors[1]}%b%f%u%c)"
+  local action_format="(${_prompt_colors[5]}%a%f)"
+  local unstaged_format="${_prompt_colors[2]}●%f"
+  local staged_format="${_prompt_colors[5]}●%f"
 
   # Set vcs_info parameters.
   zstyle ':vcs_info:*' enable bzr git hg svn
@@ -111,12 +101,12 @@ function prompt_steeef_setup {
   # Define prompts.
   # Formatting explained here: http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
   PROMPT="
-${_prompt_steeef_colors[3]}%n%f at ${_prompt_steeef_colors[2]}%m%f in ${_prompt_steeef_colors[5]}%~%f "'${vcs_info_msg_0_}'"
-"'${_prompt_steeef_colors[6]}${PYTHON_VIRTUALENV}%f'"$ "
+${_prompt_colors[3]}%n%f at ${_prompt_colors[2]}%m%f in ${_prompt_colors[5]}%~%f "'${vcs_info_msg_0_}'"
+"'${_prompt_colors[6]}${PYTHON_VIRTUALENV}%f'"$ "
   # RPROMPT="${pyenv_version}${rvm_version}"
   RPROMPT='(${pyenv_version})(${rvm_version})'
-  RPROMPT='${_prompt_steeef_colors[1]}(P:${pyenv_version})(R:${rvm_version})%f'
+  RPROMPT='${_prompt_colors[1]}(P:${pyenv_version})(R:${rvm_version})%f'
 }
 
-prompt_steeef_setup "$@"
+prompt_setup "$@"
 
